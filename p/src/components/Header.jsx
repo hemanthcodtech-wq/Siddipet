@@ -67,7 +67,7 @@ function AvatarDropdown({ user, onLogout }) {
 
           <div className="border-t border-gray-100 mt-1">
             <button onClick={() => { onLogout(); setOpen(false); }}
-              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors">
+              className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-amber-600 hover:bg-amber-50 transition-colors">
               <LogOut className="w-4 h-4" />
               Logout
             </button>
@@ -181,7 +181,7 @@ function DesktopFullHeader({ cartCount, wishlistCount, token, user, handleLogout
         </div>
       )}
       <div className="h-[76px] hidden md:block" />
-      <header className={`fixed ${announcement && announcement.is_active && announcement.items?.some(i => i.text) ? 'top-[32px]' : 'top-0'} left-0 z-50 w-full bg-[#D32F2F] px-4 md:px-12 lg:px-20 py-3 shadow-md border-b border-[#0a4722] hidden md:block transition-all`}>
+      <header className={`fixed ${announcement && announcement.is_active && announcement.items?.some(i => i.text) ? 'top-[32px]' : 'top-0'} left-0 z-50 w-full bg-[#F5B041] px-4 md:px-12 lg:px-20 py-3 shadow-md border-b border-[#D4A012] hidden md:block transition-all`}>
         <div className="w-full mx-auto flex items-center justify-between">
 
           <div className="flex items-center gap-6">
@@ -201,13 +201,13 @@ function DesktopFullHeader({ cartCount, wishlistCount, token, user, handleLogout
           {/* Desktop Nav & Search */}
           <div className="flex-1 flex items-center justify-end md:justify-center px-4 lg:px-8 xl:px-12 gap-4 xl:gap-8">
             <nav className="hidden lg:flex items-center gap-6">
-              <Link to="/" className="text-sm font-medium text-white/90 hover:text-[#F5B041] transition-colors">Home</Link>
+              <Link to="/" className="text-sm font-medium text-white/90 hover:text-amber-900 transition-colors">Home</Link>
 
               {/* Products Dropdown */}
               <div className="relative group">
                 <div className="flex items-center gap-1 cursor-pointer py-4">
-                  <span className="text-sm font-medium text-white/90 group-hover:text-[#F5B041] transition-colors">Products</span>
-                  <ChevronDown className="w-4 h-4 text-white/70 group-hover:text-[#F5B041] transition-transform group-hover:-rotate-180" />
+                  <span className="text-sm font-medium text-white/90 group-hover:text-amber-900 transition-colors">Products</span>
+                  <ChevronDown className="w-4 h-4 text-white/70 group-hover:text-amber-900 transition-transform group-hover:-rotate-180" />
                 </div>
                 <div className="absolute top-[100%] left-0 hidden group-hover:block w-52 bg-white rounded-xl shadow-xl py-2 z-[100] border border-gray-100">
                   <div className="w-full h-2 bg-transparent absolute -top-2 left-0" />
@@ -231,10 +231,10 @@ function DesktopFullHeader({ cartCount, wishlistCount, token, user, handleLogout
                 </div>
               </div>
 
-              <Link to="/free-range" className="text-sm font-medium text-white/90 hover:text-[#F5B041] transition-colors">Free Range</Link>
-              <Link to="/cage-free" className="text-sm font-medium text-white/90 hover:text-[#F5B041] transition-colors">Cage-Free</Link>
-              <Link to="/about" className="text-sm font-medium text-white/90 hover:text-[#F5B041] transition-colors">About</Link>
-              <Link to="/contact" className="text-sm font-medium text-white/90 hover:text-[#F5B041] transition-colors">Contact</Link>
+              <Link to="/free-range" className="text-sm font-medium text-white/90 hover:text-amber-900 transition-colors">Free Range</Link>
+              <Link to="/cage-free" className="text-sm font-medium text-white/90 hover:text-amber-900 transition-colors">Cage-Free</Link>
+              <Link to="/about" className="text-sm font-medium text-white/90 hover:text-amber-900 transition-colors">About</Link>
+              <Link to="/contact" className="text-sm font-medium text-white/90 hover:text-amber-900 transition-colors">Contact</Link>
             </nav>
             <DesktopSearchBar />
           </div>
@@ -243,7 +243,7 @@ function DesktopFullHeader({ cartCount, wishlistCount, token, user, handleLogout
             <Link to="/wishlist" className="relative p-1 cursor-pointer hover:-translate-y-0.5 transition-transform">
               <Heart className="w-5 h-5 text-white" strokeWidth={1.5} />
               {wishlistCount > 0 && (
-                <span className="absolute top-0 right-0 bg-[#F5B041] text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-[#D32F2F]">
+                <span className="absolute top-0 right-0 bg-white text-[#F5B041] text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-[#F5B041]">
                   {wishlistCount}
                 </span>
               )}
@@ -251,7 +251,7 @@ function DesktopFullHeader({ cartCount, wishlistCount, token, user, handleLogout
             <Link to="/cart" className="relative p-1 cursor-pointer hover:-translate-y-0.5 transition-transform">
               <ShoppingCart className="w-5 h-5 text-white" strokeWidth={1.5} />
               {cartCount > 0 && (
-                <span className="absolute top-0 right-0 bg-[#F5B041] text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-[#D32F2F]">
+                <span className="absolute top-0 right-0 bg-white text-[#F5B041] text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-[#F5B041]">
                   {cartCount}
                 </span>
               )}
@@ -259,7 +259,7 @@ function DesktopFullHeader({ cartCount, wishlistCount, token, user, handleLogout
             {token ? (
               <AvatarDropdown user={user} onLogout={handleLogout} />
             ) : (
-              <Link to="/login" className="flex items-center gap-1.5 text-xs font-bold text-white bg-[#F5B041] px-4 py-2 rounded-lg hover:bg-[#F5B041]/90 transition-colors ml-2 shadow-sm">
+              <Link to="/login" className="flex items-center gap-1.5 text-xs font-bold text-[#F5B041] bg-white px-4 py-2 rounded-lg hover:bg-white/90 transition-colors ml-2 shadow-sm">
                 <LogIn className="w-3.5 h-3.5" /> Login
               </Link>
             )}
@@ -452,7 +452,7 @@ export function Header({ variant = 'default', title, showShare = false }) {
                 </div>
                 <button
                   onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
-                  className="flex items-center justify-center gap-2 w-full bg-red-50 text-red-500 font-bold py-3 rounded-xl hover:bg-red-100 transition-all"
+                  className="flex items-center justify-center gap-2 w-full bg-amber-50 text-amber-600 font-bold py-3 rounded-xl hover:bg-amber-100 transition-all"
                 >
                   <LogOut className="w-4 h-4" /> Logout
                 </button>
@@ -511,7 +511,7 @@ export function Header({ variant = 'default', title, showShare = false }) {
         )}
 
         <div className={`h-[76px] ${announcement && announcement.is_active && announcement.items?.some(i => i.text) && variant !== 'home' ? 'mt-[27px]' : ''}`} />
-        <header className={`fixed ${announcement && announcement.is_active && announcement.items?.some(i => i.text) && variant !== 'home' ? 'top-[27px]' : 'top-0'} left-0 z-50 w-full ${variant === 'home' ? 'bg-[#D32F2F] pt-2 pb-4 px-4 h-auto' : 'bg-[#D32F2F] backdrop-blur-md px-4 py-2 shadow-lg border-b border-[#0a4722] h-[76px] transition-all'}`}>
+        <header className={`fixed ${announcement && announcement.is_active && announcement.items?.some(i => i.text) && variant !== 'home' ? 'top-[27px]' : 'top-0'} left-0 z-50 w-full ${variant === 'home' ? 'bg-[#F5B041] pt-2 pb-4 px-4 h-auto' : 'bg-[#F5B041] backdrop-blur-md px-4 py-2 shadow-lg border-b border-[#D4A012] h-[76px] transition-all'}`}>
           {variant === 'home' ? (
             <div className="w-full flex flex-col gap-3">
               <div className="flex items-center justify-between w-full mb-1">
@@ -527,10 +527,10 @@ export function Header({ variant = 'default', title, showShare = false }) {
                   <div className="relative bg-white/10 backdrop-blur-sm rounded-full p-2.5 text-white flex-shrink-0 cursor-pointer hover:scale-105 transition-transform shadow-sm">
                     <Bell className="w-4 h-4 md:w-5 md:h-5" />
                   </div>
-                  <Link to="/cart" className="relative bg-[#F5B041] rounded-full p-2.5 text-white flex-shrink-0 cursor-pointer hover:scale-105 transition-transform shadow-sm">
+                  <Link to="/cart" className="relative bg-white rounded-full p-2.5 text-[#F5B041] flex-shrink-0 cursor-pointer hover:scale-105 transition-transform shadow-sm">
                     <ShoppingCart className="w-4 h-4 md:w-5 md:h-5" />
                     {cartCount > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-white text-[#F5B041] text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full border-2 border-[#D32F2F]">
+                      <span className="absolute -top-1 -right-1 bg-white text-[#F5B041] text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full border-2 border-[#F5B041]">
                         {cartCount}
                       </span>
                     )}
@@ -573,10 +573,10 @@ export function Header({ variant = 'default', title, showShare = false }) {
                 <div className="relative bg-white/10 backdrop-blur-sm rounded-full p-2.5 text-white flex-shrink-0 cursor-pointer hover:scale-105 transition-transform shadow-sm">
                   <Bell className="w-4 h-4" />
                 </div>
-                <Link to="/cart" className="relative bg-[#F5B041] rounded-full p-2.5 text-white flex-shrink-0 cursor-pointer hover:scale-105 transition-transform shadow-sm">
+                <Link to="/cart" className="relative bg-white rounded-full p-2.5 text-[#F5B041] flex-shrink-0 cursor-pointer hover:scale-105 transition-transform shadow-sm">
                   <ShoppingCart className="w-4 h-4" />
                   {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-white text-[#F5B041] text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full border-2 border-[#D32F2F]">
+                    <span className="absolute -top-1 -right-1 bg-white text-[#F5B041] text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full border-2 border-[#F5B041]">
                       {cartCount}
                     </span>
                   )}
