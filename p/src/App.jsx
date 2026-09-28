@@ -44,8 +44,6 @@ import { AdminOffersPage } from './pages/admin/AdminOffersPage';
 import { DeliveryLoginPage } from './pages/DeliveryLoginPage';
 import { DeliveryDashboardPage } from './pages/DeliveryDashboardPage';
 
-import { AdminPickupOrdersPage } from './pages/admin/AdminPickupOrdersPage';
-import { AdminDirectOrdersPage } from './pages/admin/AdminDirectOrdersPage';
 import { AdminReviewsPage } from './pages/admin/AdminReviewsPage';
 import { AdminVacationPage } from './pages/admin/AdminVacationPage';
 import { AdminScheduleTimingsPage } from './pages/admin/AdminScheduleTimingsPage';
@@ -85,8 +83,6 @@ function App() {
 
                   <Route path="offers" element={<AdminOffersPage />} />
 
-                  <Route path="pickup-orders" element={<AdminPickupOrdersPage />} />
-                  <Route path="direct-orders" element={<AdminDirectOrdersPage />} />
                   <Route path="reviews" element={<AdminReviewsPage />} />
                   <Route path="vacation" element={<AdminVacationPage />} />
                   <Route path="schedule-timings" element={<AdminScheduleTimingsPage />} />

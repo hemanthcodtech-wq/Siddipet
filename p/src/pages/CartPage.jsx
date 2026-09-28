@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Plus, Minus, ShoppingCart, Store, Truck, X, ChevronLeft, ChevronRight, Tag, ChevronDown } from 'lucide-react';
+import { Plus, Minus, ShoppingCart, X, ChevronLeft, ChevronRight, Tag, ChevronDown } from 'lucide-react';
 import { useCartStore } from '../store/useCartStore';
 import { useAuthStore } from '../store/useAuthStore';
 import { useLocationStore } from '../store/useLocationStore';
@@ -30,26 +30,19 @@ export function CartPage() {
   };
 
   const [showDeliveryModal, setShowDeliveryModal] = useState(false);
-  const [pickupEnabled, setPickupEnabled] = useState(false);
   const [vacation, setVacation] = useState({ is_active: false, message: '' });
   const [showVacationModal, setShowVacationModal] = useState(false);
 
   useEffect(() => {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api';
-    fetch(`${BACKEND_URL}/general/shipping`)
-      .then(r => r.json())
-      .then(d => setPickupEnabled(d.settings?.pickup_enabled ?? false))
-      .catch(() => {});
     fetch(`${BACKEND_URL}/general/settings/vacation`)
       .then(r => r.json())
       .then(d => setVacation(d))
       .catch(() => {});
   }, []);
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (vacation.is_active) { setShowVacationModal(true); return; }
-
-    // Validate coupon locally before showing modal (no network call)
     if (appliedCoupon) {
       const cartQty = items.reduce((s, i) => s + i.qty, 0);
       if (appliedCoupon.min_type === 'qty' && cartQty < (appliedCoupon.min_qty || 0)) {
@@ -63,14 +56,6 @@ export function CartPage() {
         return;
       }
     }
-
-    // Show modal immediately — no API delay
-    setShowDeliveryModal(true);
-  };
-
-  const handleDeliveryChoice = async (type) => {
-    setShowDeliveryModal(false);
-    // Stock check on delivery choice (done in background while navigating)
     try {
       const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api';
       const stockRes = await fetch(`${BACKEND_URL}/general/check-stock`, {
@@ -87,6 +72,11 @@ export function CartPage() {
         }
       }
     } catch {}
+    navigate('/checkout', { state: { couponCode, orderType: 'shipping' } });
+  };
+
+  const handleDeliveryChoice = async (type) => {
+    setShowDeliveryModal(false);
     navigate('/checkout', { state: { couponCode, orderType: type } });
   };
 
@@ -359,50 +349,6 @@ export function CartPage() {
             >
               Proceed to Checkout
             </button>
-          </div>
-        </div>
-      )}
-
-      {/* Delivery Method Modal (3 Options) */}
-      {showDeliveryModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end justify-center z-[70] md:items-center">
-          <div className="bg-white rounded-t-3xl md:rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 md:zoom-in-95 duration-200">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-              <h2 className="font-bold text-lg md:text-xl text-gray-900">How to receive your order?</h2>
-              <button onClick={() => setShowDeliveryModal(false)} className="text-gray-400 hover:text-gray-600 transition-colors"><X className="w-5 h-5" /></button>
-            </div>
-            <div className="p-5 md:p-6 space-y-3 pb-8 md:pb-6">
-              <button onClick={() => handleDeliveryChoice('shipping')}
-                className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-100 hover:border-brand-primary hover:bg-brand-beige/50 transition-all text-left group">
-                <div className="w-12 h-12 bg-brand-beige rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Truck className="w-6 h-6 text-[#D32F2F]" />
-                </div>
-                <div>
-                  <p className="font-bold text-gray-900 md:text-lg">Home Delivery</p>
-                  <p className="text-xs md:text-sm text-gray-500 mt-0.5">Deliver to my address • Shipping fee applies</p>
-                </div>
-              </button>
-              <button onClick={() => handleDeliveryChoice('pickup')}
-                className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-100 hover:border-brand-primary hover:bg-brand-beige/50 transition-all text-left group">
-                <div className="w-12 h-12 bg-brand-beige rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Store className="w-6 h-6 text-[#D32F2F]" />
-                </div>
-                <div>
-                  <p className="font-bold text-gray-900 md:text-lg">Store Pickup</p>
-                  <p className="text-xs md:text-sm text-gray-500 mt-0.5">Ordering from home, I'll pick up • No shipping fee</p>
-                </div>
-              </button>
-              <button onClick={() => handleDeliveryChoice('direct')}
-                className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-100 hover:border-brand-primary hover:bg-brand-beige/50 transition-all text-left group">
-                <div className="w-12 h-12 bg-brand-beige rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Store className="w-6 h-6 text-[#D32F2F]" />
-                </div>
-                <div>
-                  <p className="font-bold text-gray-900 md:text-lg">Direct Order</p>
-                  <p className="text-xs md:text-sm text-gray-500 mt-0.5">Ordering from shop, picking up now • No shipping fee</p>
-                </div>
-              </button>
-            </div>
           </div>
         </div>
       )}
