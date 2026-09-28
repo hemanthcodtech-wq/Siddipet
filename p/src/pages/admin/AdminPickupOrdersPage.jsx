@@ -16,7 +16,6 @@ const STATUS_COLORS = {
 
 export function AdminPickupOrdersPage() {
   const [orders, setOrders] = useState([]);
-  const [deliveryPartners, setDeliveryPartners] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(null);
   const [statusFilter, setStatusFilter] = useState('all');
@@ -30,27 +29,6 @@ export function AdminPickupOrdersPage() {
       .finally(() => setLoading(false));
   }, []);
 
-    const assignDeliveryPartner = async (orderId, partnerId) => {
-    try {
-      setShipping(prev => ({ ...prev, [`assign_${orderId}`]: true }));
-      const res = await fetch(`${BACKEND_URL}/admin/orders/${orderId}/assign-delivery`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ partnerId })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to assign partner");
-      alert('Order assigned successfully!');
-      setOrders(prev => prev.map(o => o.id === orderId ? { ...o, delivery_partner_id: parseInt(partnerId) } : o));
-    } catch (err) {
-      alert(`Assign Error: ${err.message}`);
-    } finally {
-      setShipping(prev => ({ ...prev, [`assign_${orderId}`]: false }));
-    }
-  };
 
 const updateStatus = async (orderId, status) => {
     const token = localStorage.getItem('token');

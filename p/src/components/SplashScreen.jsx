@@ -16,6 +16,7 @@ import henImg  from '../assets/hen.png';
   8. Warm glow + logo scales up with shine
   9. Brand text, hold, fade
 */
+
 export function SplashScreen({ onComplete }) {
   const wrapRef   = useRef(null);
 

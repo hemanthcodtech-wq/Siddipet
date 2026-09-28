@@ -214,7 +214,7 @@ export function AdminScheduleTimingsPage() {
           id="save-schedule-timings-btn"
           onClick={handleSave}
           disabled={saving}
-          className="flex items-center gap-2 bg-brand-primary text-white hover:bg-brand-secondary font-bold px-8 py-3 rounded-xl transition-colors disabled:opacity-50 text-sm shadow-sm"
+          className="btn-primary font-bold px-8 py-3 text-sm"
         >
           {saving ? (
             <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Saving...</>

@@ -16,9 +16,6 @@ export function AdminOffersPage() {
   
   // Apply Offer state
   const [applyOfferId, setApplyOfferId] = useState(null);
-  const [applyMode, setApplyMode] = useState('category'); // 'category' or 'products'
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
   
   // Products selection
   const [products, setProducts] = useState([]);
@@ -27,7 +24,6 @@ export function AdminOffersPage() {
 
   useEffect(() => {
     fetchOffers();
-    fetchCategories();
     fetchProducts();
   }, []);
 
@@ -44,14 +40,7 @@ export function AdminOffersPage() {
     }
   };
 
-  const fetchCategories = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${BACKEND_URL}/admin/categories`, { headers: { Authorization: `Bearer ${token}` } });
-      const data = await res.json();
-      if (data.categories) setCategories(data.categories);
-    } catch (err) {}
-  };
+
 
   const fetchProducts = async () => {
     try {
@@ -102,29 +91,19 @@ export function AdminOffersPage() {
 
   const handleApplyAction = async () => {
     if (!applyOfferId) return;
+    if (selectedProducts.length === 0) return alert("Select at least one product");
     try {
       const token = localStorage.getItem("token");
-      const payload = {};
-      if (applyMode === 'category') {
-        if (!selectedCategory) return alert("Select a category");
-        payload.category = selectedCategory;
-      } else {
-        if (selectedProducts.length === 0) return alert("Select at least one product");
-        payload.productIds = selectedProducts;
-      }
-      
       await fetch(`${BACKEND_URL}/admin/offers/${applyOfferId}/apply`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ productIds: selectedProducts }),
       });
-      
       alert("Offer applied successfully!");
       setApplyOfferId(null);
-      setSelectedCategory("");
       setSelectedProducts([]);
       setSearchQuery("");
-      fetchProducts(); // refresh products data if needed
+      fetchProducts();
     } catch (err) {
       alert("Failed to apply offer");
     }
@@ -152,7 +131,8 @@ export function AdminOffersPage() {
           <p className="text-gray-900/40 text-xs font-sans mt-0.5">Manage promotional offers</p>
         </div>
         <button onClick={handleAdd}
-          className="flex items-center gap-2 bg-brand-primary text-white hover:bg-brand-secondary text-white text-white px-4 py-2.5 rounded-xl font-semibold transition-colors">
+          style={{ backgroundColor: '#D32F2F' }}
+          className="flex items-center gap-2 text-white hover:opacity-90 px-4 py-2.5 rounded-xl font-semibold transition-opacity shadow-md">
           <Plus className="w-4 h-4" /> Create Offer
         </button>
       </div>
@@ -220,7 +200,7 @@ export function AdminOffersPage() {
             </div>
             <div className="border-t border-brand-primary/10 px-6 py-4 flex gap-3">
               <button onClick={() => setEditOffer(null)} className="flex-1 px-4 py-2 bg-[#FDF8F0] text-gray-900 rounded-xl font-semibold">Cancel</button>
-              <button onClick={handleSave} disabled={saving} className="flex-1 px-4 py-2 bg-brand-primary text-white rounded-xl font-semibold flex justify-center items-center gap-2">
+              <button onClick={handleSave} disabled={saving} style={{ backgroundColor: '#D32F2F' }} className="flex-1 px-4 py-2 text-white rounded-xl font-semibold flex justify-center items-center gap-2 hover:opacity-90 transition-opacity">
                 {saving ? "Saving..." : <><Save className="w-4 h-4" /> Save</>}
               </button>
             </div>
@@ -239,77 +219,45 @@ export function AdminOffersPage() {
             </div>
             
             <div className="p-6 overflow-y-auto">
-              <div className="flex border-b border-gray-200 mb-4">
-                <button 
-                  className={`flex-1 py-2 font-semibold text-sm ${applyMode === 'category' ? 'border-b-2 border-brand-primary text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
-                  onClick={() => setApplyMode('category')}
-                >
-                  By Category
-                </button>
-                <button 
-                  className={`flex-1 py-2 font-semibold text-sm ${applyMode === 'products' ? 'border-b-2 border-brand-primary text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
-                  onClick={() => setApplyMode('products')}
-                >
-                  Specific Products
-                </button>
+              <div className="space-y-4">
+                <div>
+                  <input 
+                    type="text" 
+                    placeholder="Search products..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-3 py-2 rounded-lg bg-[#FDF8F0] border border-brand-primary/10 focus:outline-none text-sm"
+                  />
+                </div>
+                <div className="max-h-[350px] overflow-y-auto border border-gray-100 rounded-lg p-2 space-y-1">
+                  {filteredProducts.map(p => (
+                    <label key={p.id} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        checked={selectedProducts.includes(p.id)}
+                        onChange={() => toggleProductSelection(p.id)}
+                        className="w-4 h-4 text-gray-900"
+                      />
+                      <div className="flex items-center gap-2">
+                        <img src={p.image_url} alt="" className="w-8 h-8 rounded object-cover" />
+                        <span className="text-sm font-semibold">{p.name}</span>
+                      </div>
+                      {p.offer_id && (
+                        <span className="ml-auto text-[10px] bg-gray-100 px-2 py-1 rounded-full text-gray-500">Has Offer</span>
+                      )}
+                    </label>
+                  ))}
+                  {filteredProducts.length === 0 && <p className="text-center text-gray-500 text-sm py-4">No products found</p>}
+                </div>
+                <div className="text-xs text-gray-500 text-right">
+                  {selectedProducts.length} selected
+                </div>
               </div>
-
-              {applyMode === 'category' ? (
-                <div className="space-y-2">
-                  <label className="text-sm font-semibold block text-gray-900">Select Category</label>
-                  <select 
-                    value={selectedCategory} 
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-[#FDF8F0] border border-brand-primary/10 focus:outline-none"
-                  >
-                    <option value="">-- Choose Category --</option>
-                    {categories.map(c => (
-                      <option key={c.name} value={c.name}>{c.name}</option>
-                    ))}
-                  </select>
-                  <p className="text-xs text-gray-500 mt-2">This will apply the offer to all products currently in this category.</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <div>
-                    <input 
-                      type="text" 
-                      placeholder="Search products..." 
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg bg-[#FDF8F0] border border-brand-primary/10 focus:outline-none text-sm"
-                    />
-                  </div>
-                  <div className="max-h-[300px] overflow-y-auto border border-gray-100 rounded-lg p-2 space-y-1">
-                    {filteredProducts.map(p => (
-                      <label key={p.id} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          checked={selectedProducts.includes(p.id)}
-                          onChange={() => toggleProductSelection(p.id)}
-                          className="w-4 h-4 text-gray-900"
-                        />
-                        <div className="flex items-center gap-2">
-                          <img src={p.image_url} alt="" className="w-8 h-8 rounded object-cover" />
-                          <span className="text-sm font-semibold">{p.name}</span>
-                        </div>
-                        {p.offer_id && (
-                          <span className="ml-auto text-[10px] bg-gray-100 px-2 py-1 rounded-full text-gray-500">Has Offer</span>
-                        )}
-                      </label>
-                    ))}
-                    {filteredProducts.length === 0 && <p className="text-center text-gray-500 text-sm py-4">No products found</p>}
-                  </div>
-                  <div className="text-xs text-gray-500 text-right">
-                    {selectedProducts.length} selected
-                  </div>
-                </div>
-              )}
             </div>
 
             <div className="border-t border-brand-primary/10 px-6 py-4 flex gap-3 shrink-0">
               <button onClick={() => { setApplyOfferId(null); setSelectedCategory(""); setSelectedProducts([]); }} className="flex-1 px-4 py-2 bg-[#FDF8F0] text-gray-900 rounded-xl font-semibold">Cancel</button>
-              <button onClick={handleApplyAction} className="flex-1 px-4 py-2 bg-brand-primary text-white rounded-xl font-semibold">
+              <button onClick={handleApplyAction} style={{ backgroundColor: '#D32F2F' }} className="flex-1 px-4 py-2 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
                 Apply Offer
               </button>
             </div>

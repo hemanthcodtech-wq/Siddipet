@@ -116,7 +116,8 @@ export function AdminBannersPage() {
           <p className="text-gray-900/40 text-xs font-sans mt-0.5">Manage homepage banners</p>
         </div>
         <button onClick={handleAdd}
-          className="flex items-center gap-2 bg-brand-primary text-white hover:bg-brand-secondary text-white text-white px-4 py-2.5 rounded-xl font-semibold transition-colors">
+          style={{ backgroundColor: '#D32F2F' }}
+          className="flex items-center gap-2 text-white hover:opacity-90 px-4 py-2.5 rounded-xl font-semibold transition-opacity shadow-md">
           <Plus className="w-4 h-4" /> Add Banner
         </button>
       </div>
@@ -199,7 +200,7 @@ export function AdminBannersPage() {
             </div>
             <div className="border-t border-brand-primary/10 px-6 py-4 flex gap-3">
               <button onClick={() => setEditBanner(null)} className="flex-1 px-4 py-2 bg-[#FDF8F0] text-gray-900 rounded-xl font-semibold">Cancel</button>
-              <button onClick={handleSave} disabled={saving} className="flex-1 px-4 py-2 bg-brand-primary text-white rounded-xl font-semibold flex justify-center items-center gap-2">
+              <button onClick={handleSave} disabled={saving} style={{ backgroundColor: '#D32F2F' }} className="flex-1 px-4 py-2 text-white rounded-xl font-semibold flex justify-center items-center gap-2 hover:opacity-90 transition-opacity">
                 {saving ? "Saving..." : <><Save className="w-4 h-4" /> Save</>}
               </button>
             </div>

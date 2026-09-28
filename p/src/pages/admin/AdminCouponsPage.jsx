@@ -141,7 +141,7 @@ export function AdminCouponsPage() {
           <p className="text-gray-900/40 text-xs font-sans mt-0.5">Manage discount codes</p>
         </div>
         <button onClick={handleAdd}
-          className="flex items-center gap-2 bg-brand-primary text-white hover:bg-brand-secondary text-white text-white px-4 py-2.5 rounded-xl font-semibold transition-colors">
+          className="btn-primary">
           <Plus className="w-4 h-4" /> Add Coupon
         </button>
       </div>
@@ -394,7 +394,7 @@ export function AdminCouponsPage() {
             </div>
             <div className="border-t border-brand-primary/10 px-6 py-4 flex gap-3">
               <button onClick={() => setEditCoupon(null)} className="flex-1 px-4 py-2 bg-[#FDF8F0] text-gray-900 rounded-xl font-semibold">Cancel</button>
-              <button onClick={handleSave} disabled={saving} className="flex-1 px-4 py-2 bg-brand-primary text-white rounded-xl font-semibold flex justify-center items-center gap-2">
+              <button onClick={handleSave} disabled={saving} className="btn-primary flex-1 justify-center">
                 {saving ? "Saving..." : <><Save className="w-4 h-4" /> Save</>}
               </button>
             </div>

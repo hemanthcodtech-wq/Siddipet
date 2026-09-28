@@ -310,7 +310,7 @@ export function AdminProductsPage() {
             <option value="no_offer">No Offer</option>
           </select>
           <button onClick={handleAdd}
-            className="flex items-center gap-2 bg-brand-primary text-white hover:bg-brand-secondary text-white text-white px-4 py-2 rounded-xl font-semibold transition-colors whitespace-nowrap">
+            className="btn-primary whitespace-nowrap">
             <Plus className="w-4 h-4" /> Add
           </button>
         </div>
@@ -448,7 +448,7 @@ export function AdminProductsPage() {
               <div className="pt-3 border-t border-brand-primary/10">
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-sm font-serif font-bold text-gray-900">Variants (Colors & Sizes)</label>
-                  <button onClick={addVariant} className="text-xs bg-brand-primary text-white px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-brand-secondary text-white"><Plus className="w-3 h-3"/> Add Color Variant</button>
+                  <button onClick={addVariant} className="btn-primary text-xs py-1.5 px-3"><Plus className="w-3 h-3"/> Add Color Variant</button>
                 </div>
                 
                 <div className="space-y-6">
@@ -550,7 +550,7 @@ export function AdminProductsPage() {
               <div className="pt-3 border-t border-brand-primary/10">
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-sm font-serif font-bold text-gray-900">Product Details</label>
-                  <button onClick={addDetail} className="text-xs bg-brand-primary text-white px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-brand-secondary text-white"><Plus className="w-3 h-3"/> Add Detail</button>
+                  <button onClick={addDetail} className="btn-primary text-xs py-1.5 px-3"><Plus className="w-3 h-3"/> Add Detail</button>
                 </div>
                 <p className="text-[10px] text-gray-400 mb-3">Add specs like Material, Weight, Purity, Finish, etc. These show in the "Details" tab on the product page.</p>
                 <div className="space-y-2">
@@ -579,7 +579,7 @@ export function AdminProductsPage() {
               <div className="pt-3 border-t border-brand-primary/10">
                 <div className="flex justify-between items-center mb-3">
                   <label className="text-sm font-serif font-bold text-gray-900">Reviews</label>
-                  <button onClick={addReview} className="text-xs bg-brand-primary text-white px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-brand-secondary text-white"><Plus className="w-3 h-3"/> Add Review</button>
+                  <button onClick={addReview} className="btn-primary text-xs py-1.5 px-3"><Plus className="w-3 h-3"/> Add Review</button>
                 </div>
                 
                 <div className="space-y-4">

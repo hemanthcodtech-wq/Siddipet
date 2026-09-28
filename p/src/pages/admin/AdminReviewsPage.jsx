@@ -127,7 +127,7 @@ export function AdminReviewsPage() {
           <p className="text-gray-900/40 text-xs font-sans mt-0.5">Manage client testimonials shown on the homepage</p>
         </div>
         <button onClick={openAdd}
-          className="flex items-center gap-2 bg-brand-primary text-white hover:bg-brand-secondary text-white text-white px-4 py-2 rounded-xl font-semibold transition-colors whitespace-nowrap">
+          className="btn-primary whitespace-nowrap">
           <Plus className="w-4 h-4" /> Add Review
         </button>
       </div>
@@ -247,7 +247,7 @@ export function AdminReviewsPage() {
                     <input type="file" id="rev_image" accept="image/*" onChange={handleImageUpload} className="hidden" />
                     <label 
                       htmlFor="rev_image" 
-                      className={`inline-flex items-center gap-2 bg-brand-primary text-white hover:bg-brand-secondary text-white text-white px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${uploading ? 'opacity-50 pointer-events-none' : ''}`}
+                      className={`btn-primary text-xs py-1.5 px-3 ${uploading ? 'opacity-50 pointer-events-none' : ''}`}
                     >
                       <Upload className="w-3.5 h-3.5" />
                       {uploading ? 'Uploading...' : form.image_url ? 'Change Image' : 'Upload Image'}
@@ -279,7 +279,7 @@ export function AdminReviewsPage() {
             <div className="px-6 py-4 border-t border-brand-primary/10 flex gap-3 shrink-0">
               <button onClick={() => setModal(null)} className="flex-1 px-4 py-2 bg-[#FDF8F0] text-gray-900 rounded-xl font-semibold hover:bg-gray-100">Cancel</button>
               <button onClick={handleSave} disabled={saving || uploading || !form.name.trim() || !form.review.trim()}
-                className="flex-1 px-4 py-2 bg-brand-primary text-white rounded-xl font-semibold flex items-center justify-center gap-2 disabled:opacity-50 hover:bg-brand-secondary text-white transition-colors">
+                className="btn-primary flex-1 justify-center">
                 {saving ? 'Saving...' : <><Save className="w-4 h-4" /> Save Review</>}
               </button>
             </div>

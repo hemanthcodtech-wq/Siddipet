@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
-import { LayoutDashboard, ShoppingBag, Package, BarChart3, LogOut, Shield, Users, Menu, X, ImageIcon, Tag, Layers, Truck, Settings, Store, MessageSquare, PalmtreeIcon, Clock } from "lucide-react";
+import { LayoutDashboard, ShoppingBag, Package, BarChart3, LogOut, Shield, Users, Menu, X, ImageIcon, Tag, Layers, Settings, Store, MessageSquare, PalmtreeIcon, Clock } from "lucide-react";
 import image from '../../assets/logo.png'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000/api";
@@ -14,7 +14,6 @@ const NAV = [
   { href: "/admin/products", label: "Products", icon: <Package className="w-4 h-4" /> },
 
   { href: "/admin/offers", label: "Offers", icon: <Shield className="w-4 h-4" /> },
-  { href: "/admin/shipping", label: "Shipping", icon: <Truck className="w-4 h-4" /> },
   { href: "/admin/banners", label: "Banners", icon: <ImageIcon className="w-4 h-4" /> },
   { href: "/admin/coupons", label: "Coupons", icon: <Tag className="w-4 h-4" /> },
   { href: "/admin/reviews", label: "Reviews", icon: <MessageSquare className="w-4 h-4" /> },
@@ -22,7 +21,6 @@ const NAV = [
   { href: "/admin/vacation", label: "Vacation", icon: <PalmtreeIcon className="w-4 h-4" /> },
   { href: "/admin/schedule-timings", label: "Schedule Timings", icon: <Clock className="w-4 h-4" /> },
   { href: "/admin/settings", label: "Settings", icon: <Settings className="w-4 h-4" /> },
-  { href: "/admin/delivery-partners", label: "Delivery Partners", icon: <Truck className="w-4 h-4" /> },
 ];
 
 export function AdminLayout({ children }) {

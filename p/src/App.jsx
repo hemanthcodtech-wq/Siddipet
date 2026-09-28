@@ -41,11 +41,9 @@ import { AdminReportsPage } from './pages/admin/AdminReportsPage';
 import { AdminSettingsPage } from './pages/admin/AdminSettingsPage';
 
 import { AdminOffersPage } from './pages/admin/AdminOffersPage';
-import { AdminDeliveryPartnersPage } from './pages/admin/AdminDeliveryPartnersPage';
 import { DeliveryLoginPage } from './pages/DeliveryLoginPage';
 import { DeliveryDashboardPage } from './pages/DeliveryDashboardPage';
 
-import { AdminShippingPage } from './pages/admin/AdminShippingPage';
 import { AdminPickupOrdersPage } from './pages/admin/AdminPickupOrdersPage';
 import { AdminDirectOrdersPage } from './pages/admin/AdminDirectOrdersPage';
 import { AdminReviewsPage } from './pages/admin/AdminReviewsPage';
@@ -86,9 +84,7 @@ function App() {
                   <Route path="products" element={<AdminProductsPage />} />
 
                   <Route path="offers" element={<AdminOffersPage />} />
-                <Route path="delivery-partners" element={<AdminDeliveryPartnersPage />} />
 
-                  <Route path="shipping" element={<AdminShippingPage />} />
                   <Route path="pickup-orders" element={<AdminPickupOrdersPage />} />
                   <Route path="direct-orders" element={<AdminDirectOrdersPage />} />
                   <Route path="reviews" element={<AdminReviewsPage />} />

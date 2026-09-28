@@ -116,7 +116,7 @@ function BalanceDuePanel({ order, onUpdate }) {
           <Link2 className="w-3.5 h-3.5" /> {order.payment_link_url ? 'New Link' : 'Generate Link'}
         </button>
         <button onClick={() => setShowMarkPaid(p => !p)}
-          className="flex items-center gap-1.5 bg-brand-primary text-white hover:bg-brand-primary text-white/80 text-white text-xs font-bold px-3 py-2 rounded-lg transition-colors">
+          className="btn-primary text-xs py-2 px-3 font-bold">
           ✓ Mark as Paid
         </button>
       </div>
@@ -308,7 +308,7 @@ function EditOrderModal({ order, onClose, onSaved }) {
                           <MessageCircle className="w-4 h-4" /> Send Payment Link via WhatsApp
                         </button>
                         <button onClick={() => { navigator.clipboard.writeText(result.payment_link_url); }}
-                          className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white py-2.5 rounded-xl text-xs font-bold transition-colors">
+                          className="btn-primary w-full justify-center text-xs py-2.5">
                           <Link2 className="w-4 h-4" /> Copy Payment Link
                         </button>
                       </>
@@ -322,7 +322,7 @@ function EditOrderModal({ order, onClose, onSaved }) {
                   </div>
                 )}
                 {diff === 0 && <p className="text-center text-sm text-gray-500">No price change — order updated.</p>}
-                <button onClick={onClose} className="w-full bg-brand-primary text-white font-bold py-2.5 rounded-xl hover:bg-brand-primary text-white/80 transition-colors">Done</button>
+                <button onClick={onClose} className="btn-primary w-full justify-center font-bold py-2.5">Done</button>
               </>
             )}
           </div>
@@ -457,7 +457,7 @@ function EditOrderModal({ order, onClose, onSaved }) {
             <div className="flex gap-3">
               <button onClick={onClose} className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-900 rounded-xl font-semibold hover:bg-gray-200 transition-colors">Cancel</button>
               <button onClick={handleSave} disabled={saving || items.length === 0}
-                className="flex-1 px-4 py-2.5 bg-brand-primary text-white rounded-xl font-bold hover:bg-brand-primary text-white/80 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+                className="btn-primary flex-1 justify-center font-bold py-2.5">
                 {saving ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />Saving...</> : 'Save Changes'}
               </button>
             </div>
@@ -575,7 +575,7 @@ function RefundModal({ order, refunding, refundResult, onConfirm, onClose }) {
                   <span className="block mt-1 text-blue-600 font-medium">{refundResult.remainingItems} item(s) remain active in the order.</span>
                 )}
                 {refundResult.refundId && <p className="text-xs text-gray-400 font-mono">ID: {refundResult.refundId}</p>}
-                <button onClick={onClose} className="mt-5 w-full bg-brand-primary text-white font-bold py-2.5 rounded-xl hover:bg-brand-primary text-white/80 transition-colors">Done</button>
+                <button onClick={onClose} className="btn-primary mt-5 w-full justify-center font-bold py-2.5">Done</button>
               </>
             ) : (
               <>
@@ -717,7 +717,6 @@ function RefundModal({ order, refunding, refundResult, onConfirm, onClose }) {
 
 export function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
-  const [deliveryPartners, setDeliveryPartners] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(null);
   const [statusFilter, setStatusFilter] = useState("all");
@@ -735,10 +734,6 @@ export function AdminOrdersPage() {
       setLoading(false);
       return;
     }
-    fetch(`${BACKEND_URL}/admin/delivery-partners`, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.json())
-      .then(d => { if (d.partners) setDeliveryPartners(d.partners); })
-      .catch(console.error);
 
     fetch(`${BACKEND_URL}/admin/orders`, { headers: { Authorization: `Bearer ${token}` } })
       .then((r) => r.json())
@@ -753,28 +748,6 @@ export function AdminOrdersPage() {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
-
-    const assignDeliveryPartner = async (orderId, partnerId) => {
-    try {
-      setShipping(prev => ({ ...prev, [`assign_${orderId}`]: true }));
-      const res = await fetch(`${BACKEND_URL}/admin/orders/${orderId}/assign-delivery`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ partnerId })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to assign partner");
-      alert('Order assigned successfully!');
-      setOrders(prev => prev.map(o => o.id === orderId ? { ...o, delivery_partner_id: parseInt(partnerId) } : o));
-    } catch (err) {
-      alert(`Assign Error: ${err.message}`);
-    } finally {
-      setShipping(prev => ({ ...prev, [`assign_${orderId}`]: false }));
-    }
-  };
 
 const updateStatus = async (orderId, status) => {
     // Intercept cancellation — show refund modal first
@@ -1201,44 +1174,6 @@ const updateStatus = async (orderId, status) => {
                         {(order.order_type === 'pickup' ? PICKUP_STATUSES : SHIPPING_STATUSES).map((s) => <option key={s} value={s}>{s}</option>)}
                       </select>
                     </div>
-                    <div>
-                      <p className="text-[10px] font-sans text-gray-900/40 uppercase tracking-wider mb-2">Shipment</p>
-                      {!order.delivery_partner_id && (order.status === 'processing' || order.status === 'shipped') ? (
-                        <div className="space-y-2 mt-2">
-                          <select 
-                            id={`partner-select-${order.id}`}
-                            className="w-full text-xs bg-white border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:border-brand-secondary"
-                            defaultValue=""
-                          >
-                            <option value="" disabled>Select Delivery Partner</option>
-                            {deliveryPartners?.map(p => (
-                              <option key={p.id} value={p.id}>{p.name} ({p.pending_count} pending)</option>
-                            ))}
-                          </select>
-                          <button 
-                            onClick={() => {
-                              const select = document.getElementById(`partner-select-${order.id}`);
-                              if(select.value) assignDeliveryPartner(order.id, select.value);
-                            }}
-                            disabled={shipping[`assign_${order.id}`]}
-                            className="w-full flex justify-center bg-brand-secondary text-white text-xs px-3 py-2 rounded-xl font-bold hover:bg-orange-600 disabled:opacity-50"
-                          >
-                            {shipping[`assign_${order.id}`] ? 'Assigning...' : 'Assign Partner'}
-                          </button>
-                        </div>
-                      ) : order.delivery_partner_id ? (
-                        <div className="mt-2 p-3 bg-emerald-50 border border-emerald-100 rounded-xl flex flex-col gap-1">
-                          <span className="text-[10px] uppercase font-bold text-emerald-800">Assigned Partner</span>
-                          <span className="text-sm text-emerald-900 font-bold">
-                            {deliveryPartners?.find(p => p.id === order.delivery_partner_id)?.name || 'Loading...'}
-                          </span>
-                        </div>
-                      ) : (
-                        <div className="text-xs text-gray-400 bg-gray-50 p-3 rounded-xl border border-gray-100 text-center">
-                          Change status to 'processing' to assign delivery.
-                        </div>
-                      )}
-                    </div>
                   </div>
 
                   {/* Balance Due Banner */}
@@ -1527,7 +1462,7 @@ const updateStatus = async (orderId, status) => {
                         <p className="font-bold text-brand-secondary">₹{rate.amount}</p>
                         <button onClick={() => purchaseShippoLabel(ratesModal.orderId, rate.objectId)}
                           disabled={shipping[`shippo_buy_${ratesModal.orderId}`]}
-                          className="mt-1 text-xs bg-brand-primary text-white px-3 py-1.5 rounded-lg hover:bg-blue-900 disabled:opacity-50">
+                          className="btn-primary mt-1 text-xs py-1.5 px-3">
                           {shipping[`shippo_buy_${ratesModal.orderId}`] ? 'Buying...' : 'Buy Label'}
                         </button>
                       </div>

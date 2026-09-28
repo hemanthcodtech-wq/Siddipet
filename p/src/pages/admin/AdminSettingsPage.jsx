@@ -163,7 +163,7 @@ export function AdminSettingsPage() {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="bg-brand-primary text-white hover:bg-brand-secondary text-white text-white px-6 py-2.5 rounded-xl font-bold transition-colors flex items-center gap-2 disabled:opacity-50"
+              className="btn-primary font-bold px-6 py-2.5"
             >
               {saving ? 'Saving...' : <><Save className="w-4 h-4" /> Save Settings</>}
             </button>

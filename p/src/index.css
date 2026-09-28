@@ -2,24 +2,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-green: #D32F2F;
-  --color-brand-green-dark: #B81633;
-  --color-brand-yellow: #FFC107;
-  --color-brand-orange: #FF9800;
-  --color-brand-bg: #F9FAFB;
-  --color-brand-text: #333333;
-  
-  /* Retained for fallback during transition */
-  --color-brand-dark-blue: #08183A;
-  --color-brand-gold: #D4AF37;
-  --color-brand-maroon: #2D1A10;
+  /* ── Brand colors (admin buttons, badges, tabs) ── */
+  --color-brand-primary: #D32F2F;
+  --color-brand-secondary: #F5B041;
   --color-brand-beige: #FDF8F0;
   --color-brand-beige-darker: #F4EBE0;
-  --color-brand-cream: #FDFBF7;
-  --color-brand-cream-light: #FFFFFF;
-  --color-brand-green: #3B5F4A;
 
-  /* Admin / Snakzee theme */
+  /* ── Admin / Snakzee theme ── */
   --color-terracotta: #C8401A;
   --color-terracotta-dark: #a83414;
   --color-brown: #3B1F0E;
@@ -27,6 +16,14 @@
   --color-cream: #FDF6F0;
   --color-cream-dark: #F5EBE0;
   --color-gold: #D4A017;
+
+  /* ── Legacy / fallback ── */
+  --color-brand-dark-blue: #08183A;
+  --color-brand-gold: #D4AF37;
+  --color-brand-maroon: #2D1A10;
+  --color-brand-cream: #FDFBF7;
+  --color-brand-cream-light: #FFFFFF;
+  --color-brand-green: #3B5F4A;
 }
 
 @layer utilities {
@@ -54,6 +51,61 @@
     animation: marquee 25s linear infinite;
     will-change: transform;
   }
+}
+
+/* ── Global admin button utility classes ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #D32F2F;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(211, 47, 47, 0.35);
+  transition: opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.88;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(211, 47, 47, 0.45);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(211, 47, 47, 0.3);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #FDF8F0;
+  color: #1a1a1a;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(211, 47, 47, 0.15);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #f5ede0;
+  border-color: rgba(211, 47, 47, 0.3);
 }
 
 body {
