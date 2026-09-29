@@ -35,7 +35,6 @@ import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
 import { AdminProductsPage } from './pages/admin/AdminProductsPage';
 import { AdminOrdersPage } from './pages/admin/AdminOrdersPage';
 import { AdminCustomersPage } from './pages/admin/AdminCustomersPage';
-import { AdminBannersPage } from './pages/admin/AdminBannersPage';
 import { AdminCouponsPage } from './pages/admin/AdminCouponsPage';
 import { AdminReportsPage } from './pages/admin/AdminReportsPage';
 import { AdminSettingsPage } from './pages/admin/AdminSettingsPage';
@@ -86,7 +85,6 @@ function App() {
                   <Route path="reviews" element={<AdminReviewsPage />} />
                   <Route path="vacation" element={<AdminVacationPage />} />
                   <Route path="schedule-timings" element={<AdminScheduleTimingsPage />} />
-                  <Route path="banners" element={<AdminBannersPage />} />
                   <Route path="/coupons" element={<AdminCouponsPage />} />
                   <Route path="/reports" element={<AdminReportsPage />} />
                   <Route path="/settings" element={<AdminSettingsPage />} />

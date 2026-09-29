@@ -115,7 +115,7 @@ export function AdminOffersPage() {
     );
   };
 
-  const filteredProducts = products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredProducts = products.filter(p => (p.name || "").toLowerCase().includes((searchQuery || "").toLowerCase()));
 
   if (loading) return (
     <div className="flex items-center justify-center py-20">
@@ -213,7 +213,7 @@ export function AdminOffersPage() {
           <div className="bg-white rounded-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
             <div className="bg-white border-b border-brand-primary/10 px-6 py-4 flex items-center justify-between shrink-0">
               <h2 className="font-serif text-xl font-bold text-gray-900">Apply Offer</h2>
-              <button onClick={() => { setApplyOfferId(null); setSelectedCategory(""); setSelectedProducts([]); }} className="text-gray-900/50 hover:text-gray-900">
+              <button onClick={() => { setApplyOfferId(null); setSelectedProducts([]); }} className="text-gray-900/50 hover:text-gray-900">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -256,7 +256,7 @@ export function AdminOffersPage() {
             </div>
 
             <div className="border-t border-brand-primary/10 px-6 py-4 flex gap-3 shrink-0">
-              <button onClick={() => { setApplyOfferId(null); setSelectedCategory(""); setSelectedProducts([]); }} className="flex-1 px-4 py-2 bg-[#FDF8F0] text-gray-900 rounded-xl font-semibold">Cancel</button>
+              <button onClick={() => { setApplyOfferId(null); setSelectedProducts([]); }} className="flex-1 px-4 py-2 bg-[#FDF8F0] text-gray-900 rounded-xl font-semibold">Cancel</button>
               <button onClick={handleApplyAction} style={{ backgroundColor: '#D32F2F' }} className="flex-1 px-4 py-2 text-white rounded-xl font-semibold hover:opacity-90 transition-opacity">
                 Apply Offer
               </button>

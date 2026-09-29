@@ -12,7 +12,6 @@ const NAV = [
   { href: "/admin/products", label: "Products", icon: <Package className="w-4 h-4" /> },
 
   { href: "/admin/offers", label: "Offers", icon: <Shield className="w-4 h-4" /> },
-  { href: "/admin/banners", label: "Banners", icon: <ImageIcon className="w-4 h-4" /> },
   { href: "/admin/coupons", label: "Coupons", icon: <Tag className="w-4 h-4" /> },
   { href: "/admin/reviews", label: "Reviews", icon: <MessageSquare className="w-4 h-4" /> },
   { href: "/admin/reports", label: "Reports", icon: <BarChart3 className="w-4 h-4" /> },
