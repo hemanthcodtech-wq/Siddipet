@@ -8,6 +8,8 @@ const PORT = process.env.PORT || 5000;
 const allowedOrigins = [
   'http://localhost:5173',
   'https://siddipet.vercel.app',
+ 'https://www.sdptpoultryeggs.com',
+ 'https://sdptpoultryeggs.com',
   // 'https://uptradershi.vercel.app',
   // 'https://upraders.in',
   
